@@ -67,7 +67,7 @@ When `SafeDllSearchMode` is enabled (default on all modern Windows):
 | 8 | Current working directory |
 | 9 | Directories listed in `%PATH%` |
 
-> ⚠️ **Priority 4** is checked *before* trusted system folders. Whoever controls
+>  **Priority 4** is checked *before* trusted system folders. Whoever controls
 > a file with the right name in the application's folder controls what code runs.
 
 ---
@@ -108,7 +108,7 @@ C:\Windows\System32\ntshrui.dll  ← legitimate file (Priority 5, never reached)
 Windows checks `C:\Windows\` first (the app's directory), so the malicious DLL
 is executed every time the Windows desktop starts — i.e., every user login.
 
-> 🔒 **Why it won't be fixed:** Rooted in backward compatibility since Windows 2000.
+>  **Why it won't be fixed:** Rooted in backward compatibility since Windows 2000.
 > Changing the search order would break thousands of legacy applications.
 
 ---
@@ -188,7 +188,7 @@ C:\ProgramData\mcoemcpy.exe   ← legitimate, signed McAfee binary (copied here)
 C:\ProgramData\McUtil.dll     ← malicious DLL dropped by attacker
 ```
 
-> ℹ️ Hundreds of Windows system binaries are vulnerable to this technique.
+>  Hundreds of Windows system binaries are vulnerable to this technique.
 
 **Known users:** APT32 (OceanLotus), Poison Ivy variants, PlugX variants
 
@@ -228,7 +228,7 @@ C:\ProgramData\McUtil.dll     ← malicious DLL dropped by attacker
 
 ## Detection and Forensic Analysis
 
-### 🗂️ File System Timeline Analysis
+###  File System Timeline Analysis
 
 Nearly every DLL hijack drops new files onto disk. On healthy systems, new DLLs
 outside standard installation paths are rare. Look for:
@@ -238,7 +238,7 @@ outside standard installation paths are rare. Look for:
 - File creation timestamps that cluster around a time of interest
 - New file groupings (especially sets of 2–3 files appearing together)
 
-### 🧠 Memory Forensics
+###  Memory Forensics
 
 All code running in Windows must originate from disk. Enumerate loaded DLLs per
 process and check the **actual load path**:
@@ -250,7 +250,7 @@ EXPECTED:    kernel32.dll  loaded from  C:\Windows\System32\
 
 Tools: Volatility, Rekall, Process Hacker, PE-sieve
 
-### 📡 Behavioral Indicators
+###  Behavioral Indicators
 
 Hijacked DLLs almost always take further action. Any of the following from an
 unexpected process should trigger investigation:
@@ -260,7 +260,7 @@ unexpected process should trigger investigation:
 - Named pipe creation
 - Child processes spawned from unexpected parents
 
-### 🔍 Why Obscure DLLs Are Preferred Targets
+###  Why Obscure DLLs Are Preferred Targets
 
 Common DLLs like `kernel32.dll` are almost always **already in memory** when any
 application starts. Windows checks memory first (Priority 1) — so a malicious
